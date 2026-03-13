@@ -51,11 +51,14 @@ public:
     IpEndpointName( unsigned long ipAddress_, int port_ ) 
 		: address( ipAddress_ ), port( port_ ) {}
     IpEndpointName( const char *addressName, int port_=ANY_PORT )
-		: address( GetHostByName( addressName ) )
-		, port( port_ ) {}
+			: address( GetHostByName( addressName ) )
+			, port( port_ ) {}
     IpEndpointName( int addressA, int addressB, int addressC, int addressD, int port_=ANY_PORT )
-		: address( ( (addressA << 24) | (addressB << 16) | (addressC << 8) | addressD ) )
-		, port( port_ ) {}
+			: address( ( static_cast<unsigned long>(addressA) << 24 )
+                     | ( static_cast<unsigned long>(addressB) << 16 )
+                     | ( static_cast<unsigned long>(addressC) << 8 )
+                     | static_cast<unsigned long>(addressD ) )
+			, port( port_ ) {}
 
 	// address and port are maintained in host byte order here
     unsigned long address;
